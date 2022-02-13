@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <%- include('./partials/head') %>
+
+    <title><%= locals.title ? title:'Login' %></title>
+</head>
+<body>
+<div class="bg-blue ">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-6 offset-md-3">
+                <div class="card text-center p-5">
+                    <div class="row">
+                        <div class="col-6">
+                            <h5 class="card-title">Inicio da viagem: <br> <%= tripResult[0].data_inicio %> </h5>
+                        </div>
+                        <div class="col-6">
+                            <h5 class="card-title">Fim da viagem: <br> <%= tripResult[0].data_fim %> </h5>
+                        </div>
+                    </div>
+                    <h3 class="card-subtitle mb-2 text-muted p-5"> Preço: <%= parseFloat(tripResult[0].custo).toFixed(2) %>€ </h3>
+                    <div>
+                        <form action="/pagar/<%= tripResult[0]._id %>" method="post">
+                            <div class="gradient-button">
+                                <button  type="submit"> Efetuar pagamento </button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('./partials/footer_js') %>
+</body>
+
+</html>

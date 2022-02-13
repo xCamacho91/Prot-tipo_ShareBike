@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>ShareBike</title>
+
+
+</head>
+
+<body>
+<!--The div element for the map -->
+<div id="map"></div>
+
+<script>
+
+  // Initialize and add the map
+  function initMap() {
+    // The location of Uluru
+    const uluru = { lat: 32.65954224263888, lng: -16.924881033694913 };
+    // The map, centered at Uluru
+    const map = new google.maps.Map(document.getElementById("map"), {
+      zoom: 13.5,
+      center: uluru,
+    });
+
+
+    //Google maps icons http://kml4earth.appspot.com/icons.html
+
+
+    function addMarkers(postInfo) {     // recebe um posto de carregamento como parametro
+      var marker = new google.maps.Marker({
+        position: postInfo.location,
+        map: map,
+        icon:'http://maps.google.com/mapfiles/kml/paddle/blu-stars.png'
+      })
+
+      var windowContent = '<div class="card" style="width: 20rem;"> <h4><b>Nome: </b>' + postInfo.name + '</h4><div class="card-body" id=""> '
+
+
+      if (postInfo.bikes.length >= 1) {
+        windowContent = windowContent + '<p><b>Bicicletas disponíveis: </b></p> <div class="row">'
+        for (var i=0; i < postInfo.bikes.length; i++){
+          windowContent = windowContent + '<div class="col-7 mb-3"> <i class="fas fa-bicycle fa-lg"></i> ' + postInfo.bikes[i].model + ' <br><i class="fas fa-battery-three-quarters"></i>  (' + postInfo.bikes[i].battery +'% de bateria) - </div>' +
+                  '<div class="col-5 text-center"><i>' + state(postInfo.bikes[i].state, postInfo.bikes[i]._id,  postInfo._id) +'</div>'
+        }
+        windowContent = windowContent + '</div>'
+      }
+      else {
+        windowContent = windowContent + '<br><p> <i class="text-danger"> Não existem bicicletas disponíveis neste posto. </i></p></div></div>'
+      }
+
+      var infoWindow = new google.maps.InfoWindow({
+        content:  windowContent
+      })
+
+
+
+      marker.addListener('click', function () {
+        infoWindow.open(map, marker)
+      })
+
+    }
+
+
+    var posts = JSON.parse('<%-JSON.stringify(posts)%>');  // https://stackoverflow.com/questions/17184179/json-from-ejs-to-json-object-in-js
+
+    for (var i = 0; i <= posts.length; i++){
+      addMarkers(posts[i])
+    }
+  }
+
+  function state(state, bikeID, postID){
+    switch (state) {
+      case 'Reservada':
+        return '<i class="fas fa-lock fa-lg" data-bs-toggle="tooltip" data-bs-placement="right" title="Reservado"></i>';
+        break;
+      case 'Em carregamento':
+        return '' +
+                '<form action="/reservar/' + bikeID + '/' + postID + '" method="post">  ' +
+                ' <button  type="submit" class="btn btn-outline-info btn-sm"><i class="fas fa-battery-half fa-lg" data-bs-toggle="tooltip" data-bs-placement="right" title="Charging"></i> Reservar </button>' +
+                ' </form>'
+        //return '<i class="fas fa-lock fa-lg" data-bs-toggle="tooltip" data-bs-placement="right" title="Reserved"></i>';
+        break;
+      default:
+        return '<i class="fas fa-exclamation fa-lg" data-bs-toggle="tooltip" data-bs-placement="right" title="Indefinido"></i>'
+    }
+  }
+
+
+</script>
+
+
+<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAvc4qnGOod0nncTPzM5dBlV7PxQ5HdiDA&callback=initMap&libraries=&v=weekly" async></script>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,193 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <%- include('./partials/head') %>
+
+    <title><%= locals.title ? title:'Login' %></title>
+</head>
+
+<body>
+
+
+<!-- ***** Header Area Start ***** -->
+<header class="header-area header-sticky" data-wow-duration="0.75s" data-wow-delay="0s">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav class="main-nav">
+                    <!-- ***** Logo Start ***** -->
+                    <a href="/" class="logo d-none d-sm-block"> ShareBike </a>
+                    <a href="/" class="logo d-block d-sm-none"> <img src="/public/icons/bike_icon.png" alt="" class="img-fluid"> </a>
+                    <!-- ***** Logo End ***** -->
+                    <!-- ***** Menu Start ***** -->
+                    <ul class="nav">
+                        <li class="scroll-to-section"><a href="#top" class="active">Inicio</a></li>
+                        <li class="scroll-to-section"><a href="#maps">Mapa</a></li>
+                        <li class="scroll-to-section"><a href="#pricing">Preços</a></li>
+                        <li>
+
+
+                            <div class="gradient-button">   <a id="modal_trigger" href="/login"><i class="fa fa-sign-in-alt"></i> Começar
+                                </a> </div></li>
+                    </ul>
+                    <a class='menu-trigger'>
+                        <span>Menu</span>
+                    </a>
+                    <!-- ***** Menu End ***** -->
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- ***** Header Area End ***** -->
+
+
+
+
+
+
+
+
+<div class="main-banner" id="top" data-wow-duration="1s" data-wow-delay="0.5s">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-6 align-self-center">
+                        <div class="left-content show-up" data-wow-duration="1s" data-wow-delay="1s">
+                            <div class="row">
+
+
+                                <div class="alert alert-danger" hidden="true" role="alert" id="saldoAlert">
+                                    <h4 style="text-align: center;">Saldo insuficiente. Saldo minímo de 5€ para iniciar uma viagem.</h4>
+                                </div>
+
+                                <div class="alert alert-warning" hidden="true" role="alert" id="logginAlert">
+                                    <p style="text-align: center;"> Tem que efetuar login para reservar uma bicicleta.</p>
+                                </div>
+
+                                <div class="alert alert-warning" hidden="true" role="alert" id="reservaAlert">
+                                    <p style="text-align: center;"> Tem que efetuar login para reservar uma bicicleta.</p>
+                                </div>
+
+                                <script>
+
+                                    var divSaldoAlert = document.getElementById("saldoAlert")
+                                    var divlogginAlert = document.getElementById("logginAlert")
+                                    var divReservaAlert = document.getElementById("reservaAlert")
+                                    const urlParams = new URLSearchParams(window.location.search);
+                                    const myParam = urlParams.get('error');
+                                    if(myParam == "insuficientCash") {
+                                        divSaldoAlert.removeAttribute("hidden")
+                                    }
+                                    if(myParam == "noLoggin") {
+                                        divlogginAlert.removeAttribute("hidden")
+                                    }
+                                    if(myParam == "noLoggin") {
+                                        divlogginAlert.removeAttribute("hidden")
+                                    }
+
+                                </script>
+
+
+                                <div class="col-lg-12">
+                                    <h2>Lorem Ipsum</h2>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nec ullamcorper odio. Cras vel dignissim odio. Vivamus pulvinar molestie metus, in ultricies est mattis sit amet. Integer rutrum pretium vulputate. Vestibulum sed eros fringilla, sollicitudin risus cursus, viverra purus. Nam sit amet commodo sem. </p>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="white-button first-button scroll-to-section">
+                                        <a href="#contact">Free Quote <i class="fab fa-apple"></i></a>
+                                    </div>
+                                    <div class="white-button scroll-to-section">
+                                        <a href="#contact">Free Quote <i class="fab fa-google-play"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="right-image" data-wow-duration="1s" data-wow-delay="0.5s">
+                            <img src="/public/images/20945495.PNG" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="container" id="maps">
+    <div class="row">
+        <div class="text-center">
+            <div class="section-heading">
+                <h4> <em>Mapa</em> </h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+
+        <%- include('./map') %>
+
+    </div>
+</div>
+
+
+<div id="pricing" class="pricing-tables">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2">
+                <div class="section-heading">
+                    <h4>Tabela <em>Preços</em></h4>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="pricing-item-regular">
+                    <span class="price">0.10€</span>
+                    <h4>Tarifa por minuto</h4>
+                    <div class="icon">
+                        <img src="public/images/pricing-table-01.png" alt="">
+                    </div>
+                    <div class="border-button">
+                        <a href="/registo">Começa já</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="pricing-item-pro">
+                    <span class="price">25€</span>
+                    <h4>Plano Anual</h4>
+                    <div class="icon">
+                        <img src="public/images/pricing-table-01.png" alt="">
+                    </div>
+                    <div class="border-button">
+                        <a href="/registo">Começa já</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="pricing-item-regular">
+                    <span class="price">5€</span>
+                    <h4>Valor mínimo permitido</h4>
+                    <div class="icon">
+                        <img src="public/images/pricing-table-01.png" alt="">
+                    </div>
+                    <div class="border-button">
+                        <a href="#">Começa já</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<%- include('./partials/footer_js') %>
+
+</body>
+</html>

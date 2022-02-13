@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Terminar viagem</title>
+    <script type="text/javascript" src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js" ></script>
+
+      <%- include('./partials/head') %>
+  </head>
+  <body>
+  <div class="bg-primary">
+      <div class="container">
+          <div class="row mt-5">
+              <div class="col-12 col-md-6 offset-md-3">
+                  <div class="card">
+                      <div class="card-body">
+                          <p class="card-text text-center">Ler código QR para poder finalizar viagem.</p>
+                      </div>
+                      <video id="preview" class="rounded"></video>
+                      <form action="" id="acabarViagemForm" method="post">
+
+                      </form>
+                  </div>
+                  <div class="text-end">
+                      <a href="/dashboard" class="btn btn-danger">Cancel</a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+    <script>
+        let scanner = new Instascan.Scanner(
+            {
+                video: document.getElementById('preview')
+            }
+        );
+        scanner.addListener('scan', function(content) {
+            alert('Leitura realizada com sucesso \n\nClick ok para continuar');
+            window.open(content, "_blank");
+              document.getElementById("acabarViagemForm").action = '/terminarViagem/' + content   // coloca o id da bicicleta no action do form
+              document.forms["acabarViagemForm"].submit();     // submete o form automaticamente depois de ler o código
+
+           // window.location.replace("/iniciarViagem/" + content);
+        });
+        Instascan.Camera.getCameras().then(cameras =>
+        {
+            if(cameras.length > 0){
+                scanner.start(cameras[0]);
+            } else {
+                console.error("Não existe câmara no dispositivo!");
+            }
+        });
+    </script>
+
+    <%- include('./partials/footer_js') %>
+ </body>
+</html>

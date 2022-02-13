@@ -1,0 +1,149 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <%- include('./partials/head') %>
+
+    <title><%= locals.title ? title:'Login' %></title>
+</head>
+
+<body>
+
+
+
+<!-- ***** Header Area Start ***** -->
+<header class="header-area header-sticky" data-wow-duration="0.75s" data-wow-delay="0s">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav class="main-nav">
+                    <!-- ***** Logo Start ***** -->
+                    <a href="/" class="logo d-none d-sm-block"> ShareBike </a>
+                    <a href="/" class="logo d-block d-sm-none"> <img src="/public/icons/bike_icon.png" alt="" class="img-fluid"> </a>
+                    <!-- ***** Logo End ***** -->
+                    <!-- ***** Menu Start ***** -->
+                    <ul class="nav">
+                        <li>
+                            <div class="gradient-button">
+                                <a data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample" id="trigger_modal"><i class="fa fa-user"></i>  <%= user[0].nome  %></a>
+                            </div>
+                        </li>
+                    </ul>
+                    <a class='menu-trigger'>
+                        <span>Menu</span>
+                    </a>
+                    <!-- ***** Menu End ***** -->
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- ***** Header Area End ***** -->
+
+
+
+
+
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+    <div class="offcanvas-header">
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body text-center ">
+        <div>
+            <h2 class="offcanvas-title" id="offcanvasExampleLabel"><%- user[0].nome %></h2>
+            <h4 class="small">(Saldo)</h4>
+            <h1 class="text-uppercase"><%- user[0].saldo %>€</h1>
+
+        </div>
+        <ul class="list-group list-group-flush mt-5 bg-blue">
+            <li class="list-group-item"><i class="fas fa-user"></i> Perfil</li>
+            <li class="list-group-item"><i class="fas fa-coins"></i> Carregar conta</li>
+            <li class="list-group-item"><i class="fas fa-history"></i> Histórico</li>
+            <li class="list-group-item"><a href="/logout"  class="text-danger"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
+        </ul>
+    </div>
+</div>
+
+
+
+<div class="main-banner" id="top" data-wow-duration="1s" data-wow-delay="0.5s">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-6 align-self-center">
+                        <div class="left-content show-up" data-wow-duration="1s" data-wow-delay="1s">
+                            <div class="row">
+                                <div class="col-lg-12">
+
+                                    <h2 class="text-light">Lorem Ipsum</h2>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nec ullamcorper odio. Cras vel dignissim odio. Vivamus pulvinar molestie metus, in ultricies est mattis sit amet... </p>
+
+
+                                    <div class="alert alert-danger" hidden="true" role="alert" id="errorAlert">
+                                    </div>
+
+
+                                    <script>
+                                        var divErorAlert = document.getElementById("errorAlert")
+
+                                        const urlParams = new URLSearchParams(window.location.search);
+                                        const myParam = urlParams.get('error');
+                                        if(myParam == "insuficientCash") {
+                                            divErorAlert.removeAttribute("hidden")
+                                            divErorAlert.innerHTML ='<h4 style="text-align: center;">Saldo insuficiente. Saldo mínimo de 5€ para iniciar uma viagem.</h4>'
+                                        }
+
+                                        if(myParam == "insuficientBikes") {
+                                            divErorAlert.removeAttribute("hidden")
+                                            divErorAlert.innerHTML ='<h4 style="text-align: center;">A bicicleta não pode ser reserva, limite atingido.</h4>'
+                                        }
+
+
+                                    </script>
+
+                                    <% if(aluguer.length == 0 ) { %>
+                                        <div class="gradient-button text-center mt-3" > <a href="/iniciarViagem" style="font-weight: bold; font-size: 34px"> Iniciar Viagem </a> </div>
+                                    <% } else {%>
+                                        <div class="gradient-button text-center mt-3"> <a href="/terminarViagem" style="font-weight: bold; font-size: 34px"> Finalizar Viagem </a> </div>
+                                    <% }%>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="right-image" data-wow-duration="1s" data-wow-delay="0.5s">
+                            <img src="/public/images/20945495.PNG" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="text-center">
+            <div class="section-heading">
+                <h4> <em>Localização dos postos</em> </h4>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-5 mb-5">
+
+         <%- include('./map') %>
+
+    </div>
+</div>
+
+
+<%- include('./partials/footer_js') %>
+
+</body>
+</html>
